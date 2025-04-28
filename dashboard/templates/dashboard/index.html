@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Minecraft Server Dashboard</title>
+  {% load static %}
+  <script src="{% static 'dashboard/script.js' %}"></script>
+  <meta name="csrf-token" content="{{ csrf_token }}">
+</head>
+<body>
+  <h1>Server Dashboard</h1>
+
+  <div class="server" id="vanilla">
+    <h2>Vanilla Server</h2>
+    <button onclick="control('vanilla', 'start')">Start</button>
+    <button onclick="control('vanilla', 'stop')">Stop</button>
+  </div>
+
+  <div class="server" id="modded">
+    <h2>Modded Server</h2>
+    <button onclick="control('vanilla', 'start')">Start</button>
+    <button onclick="control('vanilla', 'stop')">Stop</button>
+  </div>
+</body>
+</html>

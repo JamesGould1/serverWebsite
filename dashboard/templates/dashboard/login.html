@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Minecraft Dashboard</title>
+    <style>
+        body {
+            background-color: #282c34;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background-color: #3c4048;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            width: 300px;
+        }
+        input[type="password"] {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 0.5rem;
+            border: none;
+            background-color: #61dafb;
+            color: black;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #21a1f1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Enter Password</h2>
+    <form method="post">
+        {% csrf_token %}
+        <input type="password" name="password" placeholder="Password" required><br>
+        <button type="submit">Log In</button>
+    </form>
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+</div>
+
+</body>
+</html>
