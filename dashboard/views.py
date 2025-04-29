@@ -53,7 +53,7 @@ def stop_server(request, server_name):
         container.stop()
         return JsonResponse({"message": f"Server {server_name} stopped successfully."})
     except docker.errors.NotFound:
-        return JsonResponse({"error": f"Container {server_id} not found."})
+        return JsonResponse({"error": f"Container {container_name} not found."})
     except docker.errors.APIError as e:
         return JsonResponse({"error": f"Failed to stop server {server_name}: {str(e)}"})
     except Exception as e:
