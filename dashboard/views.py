@@ -26,15 +26,15 @@ def index(request):
 @login_required
 def start_server(request, server_name):
     if server_name == "vanilla":
-        server_id = 'aff99c49db5b'  # put real container ID or name here
+        container_name = 'minecraft-server-mc-1'
     elif server_name == "modded":
-        server_id = 'e9f02a7d47bb'  # put real container ID or name here
+        container_name = 'modded-minecraft-server-mc-1'
     else:
         return JsonResponse({"error": "Invalid server name"}, status=400)
-
     try:
-        print("running: docker start " + server_id)
-        subprocess.run(['docker', 'start', server_id], check=True)
+        client = docker.from_env()
+        container = client.containers.get(container_name)
+        container.start()
         return JsonResponse({"message": f"Server {server_name} started successfully."})
     except subprocess.CalledProcessError:
         return JsonResponse({"error": f"Failed to start server {server_name}."})
@@ -42,15 +42,14 @@ def start_server(request, server_name):
 @login_required
 def stop_server(request, server_name):
     if server_name == "vanilla":
-        server_id = 'aff99c49db5b'
+        container_name = 'minecraft-server-mc-1'
     elif server_name == "modded":
-        server_id = 'e9f02a7d47bb'
+        container_name = 'modded-minecraft-server-mc-1'
     else:
         return JsonResponse({"error": "Invalid server name"}, status=400)
-    
     try:
         client = docker.from_env()
-        container = client.containers.get(server_id)
+        container = client.containers.get(container_name)
         container.stop()
         return JsonResponse({"message": f"Server {server_name} stopped successfully."})
     except docker.errors.NotFound:
