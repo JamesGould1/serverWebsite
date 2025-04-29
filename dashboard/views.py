@@ -28,7 +28,7 @@ def start_server(request, server_name):
     if server_name == "vanilla":
         server_id = 'aff99c49db5b'  # put real container ID or name here
     elif server_name == "modded":
-        server_id = '6410421e07e6'  # put real container ID or name here
+        server_id = 'e9f02a7d47bb '  # put real container ID or name here
     else:
         return JsonResponse({"error": "Invalid server name"}, status=400)
 
@@ -42,9 +42,9 @@ def start_server(request, server_name):
 @login_required
 def stop_server(request, server_name):
     if server_name == "vanilla":
-        server_id = ''  # put real container ID or name here
+        server_id = 'aff99c49db5b'  # put real container ID or name here
     elif server_name == "modded":
-        server_id = ''  # put real container ID or name here
+        server_id = 'e9f02a7d47bb'  # put real container ID or name here
     else:
         return JsonResponse({"error": "Invalid server name"}, status=400)
 
