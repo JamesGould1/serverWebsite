@@ -49,8 +49,9 @@ def stop_server(request, server_name):
         return JsonResponse({"error": "Invalid server name"}, status=400)
 
     try:
-        subprocess.run(['docker', 'stop', server_id], check=True)
         print("attempting to run sudo docker stop " + server_id)
+        print(subprocess.run(['docker', 'stop', server_id], check=True))
+        subprocess.run(['docker', 'stop', server_id], check=True)
         return JsonResponse({"message": f"Server {server_name} stopped successfully."})
     except subprocess.CalledProcessError:
         return JsonResponse({"error": f"Failed to stop server {server_name}."})
