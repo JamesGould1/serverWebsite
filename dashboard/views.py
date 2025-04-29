@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-
+import docker
 
 
 def custom_login(request):
@@ -42,16 +42,20 @@ def start_server(request, server_name):
 @login_required
 def stop_server(request, server_name):
     if server_name == "vanilla":
-        server_id = 'aff99c49db5b'  # put real container ID or name here
+        server_id = 'aff99c49db5b'
     elif server_name == "modded":
-        server_id = 'e9f02a7d47bb'  # put real container ID or name here
+        server_id = 'e9f02a7d47bb'
     else:
         return JsonResponse({"error": "Invalid server name"}, status=400)
-
+    
     try:
-        print("attempting to run sudo docker stop " + server_id)
-        print(subprocess.run(['docker', 'stop', server_id], check=True))
-        subprocess.run(['docker', 'stop', server_id], check=True)
+        client = docker.from_env()
+        container = client.containers.get(server_id)
+        container.stop()
         return JsonResponse({"message": f"Server {server_name} stopped successfully."})
-    except subprocess.CalledProcessError:
-        return JsonResponse({"error": f"Failed to stop server {server_name}."})
+    except docker.errors.NotFound:
+        return JsonResponse({"error": f"Container {server_id} not found."})
+    except docker.errors.APIError as e:
+        return JsonResponse({"error": f"Failed to stop server {server_name}: {str(e)}"})
+    except Exception as e:
+        return JsonResponse({"error": f"Unexpected error: {str(e)}"})
