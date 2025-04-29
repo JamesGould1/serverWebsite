@@ -28,13 +28,13 @@ def start_server(request, server_name):
     if server_name == "vanilla":
         server_id = 'aff99c49db5b'  # put real container ID or name here
     elif server_name == "modded":
-        server_id = 'e9f02a7d47bb '  # put real container ID or name here
+        server_id = 'e9f02a7d47bb'  # put real container ID or name here
     else:
         return JsonResponse({"error": "Invalid server name"}, status=400)
 
     try:
         print("running: docker start " + server_id)
-        subprocess.run(['sudo','docker', 'start', server_id], check=True)
+        subprocess.run(['docker', 'start', server_id], check=True)
         return JsonResponse({"message": f"Server {server_name} started successfully."})
     except subprocess.CalledProcessError:
         return JsonResponse({"error": f"Failed to start server {server_name}."})
@@ -49,7 +49,7 @@ def stop_server(request, server_name):
         return JsonResponse({"error": "Invalid server name"}, status=400)
 
     try:
-        subprocess.run(["sudo",'docker', 'stop', server_id], check=True)
+        subprocess.run(['docker', 'stop', server_id], check=True)
         print("attempting to run sudo docker stop " + server_id)
         return JsonResponse({"message": f"Server {server_name} stopped successfully."})
     except subprocess.CalledProcessError:
