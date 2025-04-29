@@ -50,6 +50,7 @@ def stop_server(request, server_name):
 
     try:
         subprocess.run(["sudo",'docker', 'stop', server_id], check=True)
+        print("attempting to run sudo docker stop " + server_id)
         return JsonResponse({"message": f"Server {server_name} stopped successfully."})
     except subprocess.CalledProcessError:
         return JsonResponse({"error": f"Failed to stop server {server_name}."})
